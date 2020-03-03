@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<script
+	  type="text/javascript"
+	  src="javascript/XRegExp.js"
+	>
+	</script>
+	<script
+	  type="text/javascript"
+	  src="javascript/shCore.js"
+	>
+	</script>
+	<script
+	  type="text/javascript"
+	  src="javascript/shBrushPlain.js"
+	>
+	</script>
+	
+	<link
+	  href="css/shCore.css"
+	  rel="stylesheet"
+	  type="text/css"
+	/>
+	<link
+	  href="css/shThemeEclipse.css"
+	  rel="stylesheet"
+	  type="text/css"
+	/>
+
+	<!-- CSS goes in the document HEAD or added to your external stylesheet -->
+
+	<link rel="stylesheet" type="text/css" href="css/misc.css">
+	<link rel="stylesheet" type="text/css" href="css/navbar_new.css">
+	<link rel="stylesheet" type="text/css" href="css/dropdown.css">
+	
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<meta charset="UTF-8"/>
+
+	<title>Euler's formula C++ class documentation</title>
+
+</head>
+
+<body>
+
+	<!--
+	<center>
+		<img
+		  src="images/svg/GravitasToolworks_logo.svg"
+		  alt="Gravitas Toolworks logo"
+		  scale="50%"
+		>
+	</center>
+	  -->
+
+	<div
+	  class="navbar"
+	>
+
+		<!--
+		<a href="index.html">Home</a>
+		  -->
+		<a href="index.html">About</a>
+		<a href="Dependencies.html">Dependencies</a>
+		<a href="Configuring.html">Configuring</a>
+		<a href="Building.html">Building</a>
+
+		<a href="Implementation.html">Implementation</a>
+
+	</div>
+
+	<div
+	  class="main"
+	>
+
+	<h1>Dependencies for this Package.</h1>
+
+	Both the class itself and the class test program have dependencies on external software libraries.
+
+	<h2>The class.</h2>
+
+	The class depends only on the GNU Scientific Library (GSL).
+	
+	<br>
+	<br>
+	
+	In particular, it makes use of the following mathematical Factorial function which is provided by the GSL;
+
+	<br>
+	<br>
+
+	<div class="command">
+	double gsl_sf_fact(usigned int n)
+	</div>
+
+	<br>
+
+	where it is used in the calculation for each of the values of the components for Euler's formula.
+
+	<h2>The class test program.</h2>
+	
+	The class test program depends only on the Boost library.
+
+	<br>
+	<br>
+
+	In particular, it makes use of the following Lexical Cast function which is provided by the Boost library;
+	
+	<br>
+	<br>
+	
+	<div class="command">
+	boost::lexical_cast<Typename>(arg String)
+	</div>
+
+	<h2>Implication of dependencies.</h2>
+	
+	These dependencies on external software libraries come with one big implication, and that is;
+	
+	<br>
+	<br>
+	
+	<div class="note">
+
+		The system upon which the package is being configured, built, and installed, must have an appropriate version of both the GSL and
+		the Boost Library installed on it.
+
+	</div>
+
+	<br>
+
+	Thus, the person who is responsible for configuring, building, and installing this package, must ensure that
+	appropriate versions of both of these two dependent libraries are installed on the system. Furthermore, they may even need to know exactly where
+	both of these libraries are installed on the system.
+
+	<br>
+	<br>
+
+	<hr>
+
+	<br>
+	
+	The next page discusses how to configure this package so that both the GSL and the Boost Library can be used by the build process.
+	
+	<br>
+	<br>
+
+	Prev : <a href="./index.html">About</a> | Next : <a href="./Configuring.html">Configuring</a>
+
+</div>
+</body>
