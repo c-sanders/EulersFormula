@@ -1,6 +1,12 @@
 SUBDIRS = src
 
 
+.PHONY: doxygen
+doxygen:
+
+	doxygen EulersFormulaClass.doxygen.config
+
+
 .PHONY: displaySettings
 displaySettings:
 

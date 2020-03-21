@@ -33,6 +33,7 @@ AC_LANG_CPLUSPLUS
 AC_CONFIG_FILES(
 
   [Makefile \
-   src/Makefile])
+   src/Makefile \
+   EulersFormulaClass.doxygen.config])
 
 AC_OUTPUT
