@@ -37,6 +37,8 @@ main
  char * argv[]
 )
 {
+	string                           argumentHelp    = "--help";
+	
 	int                              numComponents = 0;
 
 	long double                      angleRadians  = 0;
@@ -46,8 +48,29 @@ main
 	pair<long double, long double>   complexResult;
 
 
+	// --------------------------------------------------------------------------------------------
+	// Step 1)
+	//
+	// Analyse the command line arguments and proceed accordingly.
+	// --------------------------------------------------------------------------------------------
+	
+	if (argc == 2)
+	{
+		if (
+		    (argumentHelp.compare("--help") == 0) ||
+		    (argumentHelp.compare("-h")     == 0)
+		   )
+		{
+			display_usage(argv[0]);
+
+			goto return_routine;
+		}
+	}
+
 	if (argc != 3)
 	{
+		cout << "argc != 3" << endl;
+
 		display_usage(argv[0]);
 
 		goto return_routine;
@@ -67,13 +90,28 @@ main
 	cout << numComponents << endl;
 	cout << angleRadians  << endl;
 
+
+	// --------------------------------------------------------------------------------------------
+	// Step 2)
+	//
+	// Create an appropriately configured object and then instruct it to compute a value for
+	// Euler's formula based on the values it was configured with.
+	// --------------------------------------------------------------------------------------------
+
 	object_p = new EulersFormula(numComponents, angleRadians);
 
 	std::cout << "limit = " << numComponents << std::endl; 
 
 	complexResult = object_p->compute();
 
-	// Manipulate the ostream.
+
+	// --------------------------------------------------------------------------------------------
+	// Step 3)
+	//
+	// Display the results.
+	// --------------------------------------------------------------------------------------------
+
+	// Manipulate the ostream so that the results can be displayed in a nicer fashion.
 	//
 	//   - Set the precision width to be fixed.
 	//   - ...
@@ -84,10 +122,14 @@ main
 	std::cout << endl << endl;
 	
 	std::cout << "Answer (e^j)       = " << complexResult.first << " + j" << complexResult.second << endl;
-	std::cout << "Answer (cos / sin) = " << cos(0.7) << " + j" << sin(0.7) << endl;
+	std::cout << "Answer (cos / sin) = " << cos(angleRadians) << " + j" << sin(angleRadians) << endl;
 
 
-	// Cleanup and exit from function.
+	// --------------------------------------------------------------------------------------------
+	// Step 4)
+	//
+	// Cleanup and then exit from this function.
+	// --------------------------------------------------------------------------------------------
 
 	return_routine :
 	{
