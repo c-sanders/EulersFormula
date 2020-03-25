@@ -69,8 +69,13 @@ EulersFormula
 		(
 		);
 
+		std::pair<long double, long double>
+		getResult
+		(
+		);
+		
 		std::pair<std::list<long double>, std::list<long double> >
-		getComponents
+		getResultComponents
 		(
 		);
 

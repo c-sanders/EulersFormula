@@ -1,8 +1,17 @@
 # ACLOCAL_AMFLAGS(-I m4)
 
 
-bin_PROGRAMS                       = test_eulers_formula
+# Binary
+# ======
 
+bin_PROGRAMS                       = test_eulers_formula \
+                                     test_gsl_error
+
+
+# The -std=c++11 Compiler option is required in order;
+#
+#   - to use the nullptr keyword
+#   - to use the noexcept keyword 
 
 # Library
 # =======
@@ -13,11 +22,22 @@ libeulers_formula_la_SOURCES       = EulersFormula.cpp
 
 libeulers_formula_la_CPPFLAGS      = -I${top_srcdir}/include ${GSL_CFLAGS}
 
+libeulers_formula_la_CXXFLAGS      = -std=c++11
+
 
 # Binary
 # ======
-#
-# At compile time, the -std=c++11 Compiler option is required in order to use the nullptr keyword.
+
+test_gsl_error_SOURCES             = testGslError.cpp
+
+test_gsl_error_CPPFLAGS            = -I${top_srcdir}/include ${GSL_CFLAGS}
+
+test_gsl_error_CXXFLAGS            = -std=c++11
+
+test_gsl_error_LDFLAGS             =
+
+test_gsl_error_LDADD               = ${GSL_LIBS}
+
 
 test_eulers_formula_INCLUDES       = EulersFormula.hpp
 

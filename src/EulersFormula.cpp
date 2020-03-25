@@ -187,6 +187,7 @@ EulersFormula::setAngleRadians
 //
 // Invokes    : EulersFormula::computeComponents
 //              EulersFormula::sumComponents
+//              EulersFormula::getResult
 
 /**
  * \brief Compute Euler's formula to the specified number of components - both Real and Imaginary, and using the specified angle.
@@ -200,9 +201,36 @@ EulersFormula::compute
 	this->computeComponents();
 	this->sumComponents();
 
-	std::pair<long double, long double>complexResult(this->realSum, this->imagSum);
+	return(this->getResult());
+}
 
-	return(complexResult);
+
+// Method
+// ======
+//
+// Visibility : private
+//
+// Invoked by : * Client *
+//
+// Invokes    :
+
+/**
+ * \brief Get the values of the specified number of components, both Real and Imaginary.
+ */
+
+std::pair<long double, long double>
+EulersFormula::getResult
+(
+)
+{
+	std::pair<long double, long double>   components;
+
+
+	// std::pair<std::list<long double>, std::list<long double> >complexResult(this->realSum, this->imagSum);
+
+	components = std::make_pair(this->realSum, this->imagSum);
+
+	return(components);
 }
 
 
@@ -220,13 +248,16 @@ EulersFormula::compute
  */
 
 std::pair<std::list<long double>, std::list<long double> >
-EulersFormula::getComponents
+EulersFormula::getResultComponents
 (
 )
 {
-	std::pair<long double, long double>complexResult(this->realSum, this->imagSum);
+	std::pair<std::list<long double>, std::list<long double> >   components;
 
-	return(complexResult);	
+
+	components = std::make_pair(this->realComponents, this->imagComponents);
+
+	return(components);
 }
 
 
