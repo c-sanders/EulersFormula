@@ -10,9 +10,7 @@
 // 0.764842187284488426 + j0.644217687237691054
 
 
-bool   EulersFormula::errorStatus = false;
-
-
+// static
 void
 EulersFormula::errorHandlerGSL
 (
@@ -23,14 +21,10 @@ EulersFormula::errorHandlerGSL
  int    lineNumber,
  int    errnoGSL
 )
-/*
-throw
+noexcept
 (
- // runtime_error
- const
- string
+ false
 )
- */
 {
 	const
 	string          nameMethod = "errorHandlerGSL : ";
@@ -48,14 +42,11 @@ throw
 	cout << "Error number : " << errnoGSL << endl;
 	cout << "Reason       : " << reason_p << endl;
 
-	EulersFormula::errorStatus = true;
-
-	// cout << nameMethod << "About to throw an exception" << endl;
-
-	// throw e_p;
-	// throw "GSL Error";
+	cout << nameMethod << "About to throw an exception" << endl;
 
 	cout << nameMethod << "Exit" << endl;
+
+	throw runtime_error("GSL Error.");
 }
 
 
@@ -94,9 +85,7 @@ EulersFormula::EulersFormula
 
 	// gsl_set_error_handler(EulersFormula::errorHandlerGSL);
 
-	gsl_set_error_handler_off();
-
-	EulersFormula::errorStatus = false;
+	this->gslErrorHandler_p = gsl_set_error_handler(this->errorHandlerGSL);
 
 	cout << nameMethod << "Exit" << endl;
 }
@@ -119,7 +108,7 @@ EulersFormula::~EulersFormula
 (
 )
 {
-	cout << "Euler Dtor" << endl;
+	gsl_set_error_handler(this->gslErrorHandler_p);
 }
 
 
@@ -327,8 +316,11 @@ EulersFormula::computeComponents
 			{
 				currentComponent = multiplier * (this->computeComponent(this->angleRadians, this->counter));
 			}
-			catch (runtime_error * e_p)
+			catch (runtime_error & e)
 			{
+				cout << nameMethod << "Caught an Exception." << endl;
+				cout << nameMethod << "Exception info : " << e.what() << endl;
+	
 				break;
 			}
 
@@ -461,7 +453,7 @@ EulersFormula::getImagComponents
 //
 // Invoked by : computeComponents
 //
-// Invokes    : EulersFormula::raiseBaseToPower
+// Invokes    : EulersFormula::computeComponentUsingException
 
 long double
 EulersFormula::computeComponent
@@ -475,7 +467,44 @@ noexcept
 )
 {
 	const
-	string          nameMethod = "EulersFormula::computeComponent : ";
+	string        nameMethod = "EulersFormula::computeComponent : ";
+
+	long double   currentComponent = 0;
+
+
+	cout << nameMethod << "Enter" << endl;
+	cout << nameMethod << "Component number = " << numberComponent << endl;
+
+	currentComponent = this->computeComponentUsingException(angleRadians, numberComponent);
+
+	cout << nameMethod << "Exit" << endl;
+
+	return(currentComponent);
+}
+
+
+// Method
+// ======
+//
+// Visibility : private
+//
+// Invoked by : computeComponent
+//
+// Invokes    : EulersFormula::raiseBaseToPower
+
+long double
+EulersFormula::computeComponentUsingErrorCode
+(
+ long double   angleRadians,
+ int           numberComponent
+)
+noexcept
+(
+ false  // This method may throw Exception(s).
+)
+{
+	const
+	string          nameMethod = "EulersFormula::computeComponentUsingErrorCode : ";
 
 	int             errorStatus;
 	
@@ -488,9 +517,12 @@ noexcept
 
 
 	cout << nameMethod << "Enter" << endl;
-	cout << nameMethod << "Component number = " << numberComponent << endl;
 
-	numerator        = this->raiseBaseToPower(angleRadians, numberComponent);
+	// Compute the value of the numerator.
+
+	numerator = this->raiseBaseToPower(angleRadians, numberComponent);
+
+	// Compute the value of the denominator.
 
 	errorStatus = gsl_sf_fact_e(numberComponent, & result);
 
@@ -498,12 +530,54 @@ noexcept
 	{
 		throw runtime_error("GSL Error.");
 	}
-	else
-	{
-		// throw runtime_error("GSL Error");
-	}
 
 	denominator = result.val;
+
+	// Compute the value for the current component.
+
+	currentComponent = numerator / denominator; 
+
+	cout << nameMethod << "Exit" << endl;
+
+	return(currentComponent);
+}
+
+
+// Method
+// ======
+//
+// Visibility : private
+//
+// Invoked by : computeComponent
+//
+// Invokes    : EulersFormula::raiseBaseToPower
+
+long double
+EulersFormula::computeComponentUsingException
+(
+ long double   angleRadians,
+ int           numberComponent
+)
+noexcept
+(
+ false  // This method may throw Exception(s).
+)
+{
+	const
+	string        nameMethod = "EulersFormula::computeComponentUsingException : ";
+
+	long double   currentComponent = 0;
+
+	long double   numerator;
+
+	double        denominator;
+
+
+	cout << nameMethod << "Enter" << endl;
+
+	numerator = this->raiseBaseToPower(angleRadians, numberComponent);
+
+	denominator = gsl_sf_fact(numberComponent);
 
 	currentComponent = numerator / denominator; 
 

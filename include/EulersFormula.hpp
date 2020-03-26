@@ -7,6 +7,9 @@
 #include <utility>
 #include <stdexcept>
 
+#include <gsl/gsl_errno.h>
+// 
+
 
 using std::cout;
 using std::endl;
@@ -25,9 +28,6 @@ class
 EulersFormula
 {
 	public :
-
-		static
-		bool           errorStatus;
 
 		EulersFormula
 		(
@@ -93,13 +93,10 @@ EulersFormula
 		 int    lineNumber,
 		 int    errnoGSL
 		)
-		/*
-		throw
+		noexcept
 		(
-		 // runtime_error
-		 const
-		 string
-		)*/;
+		 false
+		);
 
 		void
 		computeComponents
@@ -113,6 +110,28 @@ EulersFormula
 
 		long double
 		computeComponent
+		(
+		 long double   angleRadians,
+		 int           numberComponent
+		)
+		noexcept
+		(
+		 false
+		);
+
+		long double
+		computeComponentUsingErrorCode
+		(
+		 long double   angleRadians,
+		 int           numberComponent
+		)
+		noexcept
+		(
+		 false
+		);
+		
+		long double
+		computeComponentUsingException
 		(
 		 long double   angleRadians,
 		 int           numberComponent
@@ -151,6 +170,8 @@ EulersFormula
 
 
 	private :
+
+		gsl_error_handler_t              * gslErrorHandler_p;
 
 		int                                numComponents,
 		                                   counter;
